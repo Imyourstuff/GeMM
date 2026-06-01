@@ -39,13 +39,10 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE AUTO
-set_global_assignment -name TOP_LEVEL_ENTITY processingElement
+set_global_assignment -name TOP_LEVEL_ENTITY gemmArray
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:09:23  июня 01, 2026"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (SystemVerilog)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "SYSTEMVERILOG HDL" -section_id eda_simulation
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
@@ -62,4 +59,23 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_symbol
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_signal_integrity
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_boundary_scan
+set_global_assignment -name SYSTEMVERILOG_FILE gemmArray.sv
+set_global_assignment -name SYSTEMVERILOG_FILE processingElement.sv
+set_global_assignment -name SYSTEMVERILOG_FILE tb_mult.sv
+set_global_assignment -name SYSTEMVERILOG_FILE tb_regX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE tb_pe.sv
+set_global_assignment -name SYSTEMVERILOG_FILE tb_primitives.sv
+set_global_assignment -name SYSTEMVERILOG_FILE dffMy.sv
+set_global_assignment -name SYSTEMVERILOG_FILE regEnable.sv
+set_global_assignment -name SYSTEMVERILOG_FILE regChain.sv
+set_global_assignment -name SYSTEMVERILOG_FILE andMux.sv
+set_global_assignment -name SYSTEMVERILOG_FILE regAcc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE sumAcc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE mult.sv
+set_global_assignment -name SYSTEMVERILOG_FILE notA.sv
+set_global_assignment -name SYSTEMVERILOG_FILE regX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE orMux.sv
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

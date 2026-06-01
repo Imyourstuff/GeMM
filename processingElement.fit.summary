@@ -1,0 +1,16 @@
+Fitter Status : Successful - Mon Jun  1 15:05:52 2026
+Quartus Prime Version : 20.1.1 Build 720 11/11/2020 SJ Lite Edition
+Revision Name : processingElement
+Top-level Entity Name : gemmArray
+Family : Cyclone IV E
+Device : EP4CE15F23C6
+Timing Models : Final
+Total logic elements : 6,257 / 15,408 ( 41 % )
+    Total combinational functions : 5,084 / 15,408 ( 33 % )
+    Dedicated logic registers : 2,867 / 15,408 ( 19 % )
+Total registers : 2867
+Total pins : 237 / 344 ( 69 % )
+Total virtual pins : 0
+Total memory bits : 12,800 / 516,096 ( 2 % )
+Embedded Multiplier 9-bit elements : 112 / 112 ( 100 % )
+Total PLLs : 0 / 4 ( 0 % )
