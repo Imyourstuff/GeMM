@@ -8,12 +8,12 @@ module gemm_driver #(
     input logic [WIDTH-1:0] A [0:N-1][0:N-1],
     input logic [WIDTH-1:0] B [0:N-1][0:N-1],
     output logic [ACC_WIDTH-1:0] c_out,
-    output logic [N*N-1:0]          tick
+    output logic [WIDTH*2-1:0]          tick
 );
 
     logic alpha;
     logic beta;
-    logic [N*N-1:0] cnt;
+    logic [WIDTH-1*2:0] cnt;
     
     // Counter
     always_ff @(posedge clk or posedge reset) begin

@@ -9,7 +9,7 @@ module tb_gemmDriver;
     logic reset;
 
     logic [ACC_WIDTH-1:0] c_out;
-    logic [N*N-1:0] tick;
+    logic [WIDTH*2-1:0] tick;
 
     int local_tick = 0;
 
