@@ -1,6 +1,6 @@
 module gemmArray #(
     parameter WIDTH = 32,
-    parameter N = 16,
+    parameter N = 4,
     parameter ACC_WIDTH = 2*WIDTH + $clog2(N)
 )(
     input logic                     clk,
@@ -11,14 +11,11 @@ module gemmArray #(
     input logic [WIDTH-1:0]         b_in_3, //Для правой
     input logic [ACC_WIDTH-1:0]     c_in,
 
-    // theta[0] = alpha
-    // theta[1] = beta
-    input logic [1:0]               theta,
+    input logic                     alpha,
+    input logic                     beta,
 
-    output logic [ACC_WIDTH-1:0]    c_out,
-    output logic                    done
+    output logic [ACC_WIDTH-1:0]    c_out
 );
-
     logic [WIDTH-1:0]       a_chain [0:N];
     logic [ACC_WIDTH-1:0]   c_chain [0:N];
     logic                   alpha_chain [0:N];
@@ -31,8 +28,8 @@ module gemmArray #(
 
     assign a_chain[0]     = a_in;
     assign c_chain[0]     = c_in;
-    assign alpha_chain[0] = theta[0];
-    assign beta_chain[0]  = theta[1];
+    assign alpha_chain[0] = alpha;
+    assign beta_chain[0]  = beta;
 
     //Проверить индексы.
     assign b_chain_left[0]  = b_in_1;
@@ -93,8 +90,4 @@ module gemmArray #(
     endgenerate
 
     assign c_out = c_chain[N];
-
-    //Подумать про сигнал готовности...
-    assign done = alpha_chain[N];
-
 endmodule

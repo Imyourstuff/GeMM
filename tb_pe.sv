@@ -52,7 +52,6 @@ module tb_pe;
         $display("Parameters: WIDTH=%0d, N=%0d, ACC_WIDTH=%0d, MODE=%0d, ID=%0d",
                  WIDTH, N, ACC_WIDTH, MODE, ID);
 
-        $display("=== FLUSH PHASE ===");
         reset = 1;
         alpha = 0; 
         beta = 0; 
@@ -63,57 +62,64 @@ module tb_pe;
         reset = 0;
         #100;
         
+        $display("Loading B loop register.");
         #20;
-        b=8; alpha=1; beta=0;
+        b<=8; 
+        alpha<=1; 
+        beta<=0;
         #20;
-        b=6; alpha=1; beta=0;
+        b<=6; 
+        alpha<=1; 
+        beta<=0;
         #20;
 
-        #2;
         //Init + load new A and B with t=(1,1)
-        $display("\n1. Init + load new A and B with t=(1,1).");
-        alpha = 1;
-        beta = 1;
-        a = 8'd10;
-        b = 8'd5;
-        c = 18'd0;
+        $display("\n1. Инициализация + берём новые A и B с t=(1,1).");
+        alpha <= 1;
+        beta <= 1;
+        a <= 8'd10;
+        b <= 8'd5;
+        c <= 18'd0;
         #20;
         $display("  Input: a=%0d, b=%0d, c=%0d | α=%b, β=%b", a, b, c, alpha, beta);
-        $display("  Output: a_j2=%0d, b_j2=%0d, c_j1=%0d", a_j2, b_j2, c_j1);
+        $display("  Output: %0d * %0d + %0d = %0d", a, b, c, c_j1);
+        assert(c_j1 == a * b + c);
 
-        #2;
         //Test t=(1,0), A is reused, B is loaded
-        $display("\n2. Test t=(1,0), A is reused, B is loaded.");
-        alpha = 1; 
-        beta = 0;
-        a = 8'd20;  //Should not be in R5
-        b = 8'd3;
-        c = 18'd50; //Accumulated summ
+        $display("\n2. Тест с  t=(1,0), A переиспользуем, B берём новую..");
+        alpha <= 1; 
+        beta <= 0;
+        a <= 8'd20;  //Should not be in R5
+        b <= 8'd3;
+        c <= 18'd50; //Accumulated summ
         #20;
-        $display("  Input: a=%0d (ignored), b=%0d, c=%0d | α=%b, β=%b", a, b, c, alpha, beta);
+        $display("  Input: a=%0d (вместо него берём a=10), b=%0d, c=%0d | α=%b, β=%b", a, b, c, alpha, beta);
+        $display("  Output: %0d * %0d + %0d = %0d", 10, b, c, c_j1);
+        assert(c_j1 == 10 * b + c);
 
-        #2;
         //Cyclical B, new A is loaded. t = (0,1)
-        $display("\n3. Cyclical B, new A is loaded. t = (0,1)");
-        alpha = 0; 
-        beta = 1;
-        a = 8'd7;
-        b = 8'd1;  //Ignored, taking old
-        c = 18'd101;
+        $display("\n3. Берём новую А, B из конца кольца, t = (0,1)");
+        alpha <= 0; 
+        beta <= 1;
+        a <= 8'd7;
+        b <= 8'd1;  //Ignored, taking old
+        c <= 18'd101;
         #20;
-        $display("  Input: a=%0d, b=%0d (Ignored), c=%0d | α=%b, β=%b", a, b, c, alpha, beta);
+        $display("  Input: a=%0d, b=%0d (игнорируем, берём с кольца b = 8), c=%0d | α=%b, β=%b", a, b, c, alpha, beta);
+        $display("  Output: %0d * %0d + %0d = %0d", a, 8, c, c_j1);
+        assert(c_j1 == a * 8 + c);
 
-        #2;
         //Cyclical B + old A, t = (0,0)
-        $display("\n[Тест 4] Режим (α,β)=(0,0) — полное переиспользование");
-        alpha = 0; 
-        beta = 0;
-        a = 8'd99;  // Ignored
-        b = 8'd99;  // Ignored
-        c = 18'd200;
+        $display("\n4. Режим (α,β)=(0,0) — B из кольца и старое А");
+        alpha <= 0; 
+        beta <= 0;
+        a <= 8'd99;  // Ignored
+        b <= 8'd99;  // Ignored
+        c <= 18'd200;
         #20;
-        $display("  Input: a=%0d, b=%0d (Ignored), c=%0d | α=%b, β=%b", a, b, c, alpha, beta);
-
+        $display("  Input: a=%0d, b=%0d (оба игнорируем), c=%0d | α=%b, β=%b", a, b, c, alpha, beta);
+        $display("  Output: %0d * %0d + %0d = %0d", 7, 6, c, c_j1);
+        assert(c_j1 == 7 * 6 + c);
 
         #40;
         $display("\nFinished!");
