@@ -111,6 +111,7 @@ logic [ACC_WIDTH-1:0] r6_sum;
 
 regAcc #(.WIDTH(WIDTH), .N(N), .ACC_WIDTH(ACC_WIDTH)) r6 (
     .clk(clk),
+    .reset(reset),
     .d_in(c),
     .q_out(r6_sum)
 );
@@ -133,7 +134,7 @@ dffMy d2(
     .clk(clk),
     .reset(reset),
     .d_in(beta),
-	 .q_out(beta_j1)
+	.q_out(beta_j1)
 );
 
 endmodule
