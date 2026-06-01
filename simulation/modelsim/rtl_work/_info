@@ -1,0 +1,333 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/mikentain/Projects/FPGA/GeMM/simulation/modelsim
+vandMux
+Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z2 !s110 1780312491
+!i10b 1
+!s100 PMh3AmOH9VBd<]MfSU?af0
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IoTBP:Qe3YWV0gLKinPe@?3
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+w1780244707
+8/home/mikentain/Projects/FPGA/GeMM/andMux.sv
+F/home/mikentain/Projects/FPGA/GeMM/andMux.sv
+!i122 3
+Z5 L0 1 9
+Z6 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z7 !s108 1780312491.000000
+!s107 /home/mikentain/Projects/FPGA/GeMM/andMux.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/andMux.sv|
+!i113 1
+Z8 o-sv -work work
+Z9 !s92 -sv -work work +incdir+/home/mikentain/Projects/FPGA/GeMM
+Z10 tCvgOpt 0
+nand@mux
+vdffMy
+R1
+Z11 !s110 1780312492
+!i10b 1
+!s100 VbJ?jmH0R_ZcQVRZQ]IF72
+R3
+IEleJc<WIM?kBEc<[lzUa]1
+R4
+S1
+R0
+w1780309646
+8/home/mikentain/Projects/FPGA/GeMM/dffMy.sv
+F/home/mikentain/Projects/FPGA/GeMM/dffMy.sv
+!i122 10
+L0 1 15
+R6
+r1
+!s85 0
+31
+Z12 !s108 1780312492.000000
+!s107 /home/mikentain/Projects/FPGA/GeMM/dffMy.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/dffMy.sv|
+!i113 1
+R8
+R9
+R10
+ndff@my
+vmult
+R1
+R11
+!i10b 1
+!s100 8@38k?9c[9cT659K[PK]20
+R3
+IKlPLzVbQgjW0ea1K<PS3Z0
+R4
+S1
+R0
+w1780264649
+8/home/mikentain/Projects/FPGA/GeMM/mult.sv
+F/home/mikentain/Projects/FPGA/GeMM/mult.sv
+!i122 7
+Z13 L0 1 17
+R6
+r1
+!s85 0
+31
+R12
+!s107 /home/mikentain/Projects/FPGA/GeMM/mult.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/mult.sv|
+!i113 1
+R8
+R9
+R10
+vnotA
+R1
+R11
+!i10b 1
+!s100 aROR[YeWfKc85F`anUSNa0
+R3
+IBdFCADVeR:75efRmzU7XW1
+R4
+S1
+R0
+w1780245234
+8/home/mikentain/Projects/FPGA/GeMM/notA.sv
+F/home/mikentain/Projects/FPGA/GeMM/notA.sv
+!i122 5
+L0 1 8
+R6
+r1
+!s85 0
+31
+R12
+!s107 /home/mikentain/Projects/FPGA/GeMM/notA.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/notA.sv|
+!i113 1
+R8
+R9
+R10
+nnot@a
+vorMux
+R1
+R11
+!i10b 1
+!s100 KIeQS<3@Kj;Ai1]m<QCM13
+R3
+IglE8jg<^M[HhdQ?[3ZWhD3
+R4
+S1
+R0
+w1780245228
+8/home/mikentain/Projects/FPGA/GeMM/orMux.sv
+F/home/mikentain/Projects/FPGA/GeMM/orMux.sv
+!i122 4
+R5
+R6
+r1
+!s85 0
+31
+R7
+!s107 /home/mikentain/Projects/FPGA/GeMM/orMux.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/orMux.sv|
+!i113 1
+R8
+R9
+R10
+nor@mux
+vprocessingElement
+R1
+R2
+!i10b 1
+!s100 Y<J[S?h4iEC[EUe9noU_o1
+R3
+IDFJB7m2`4Xnma58nbZ<]50
+R4
+S1
+R0
+w1780306704
+8/home/mikentain/Projects/FPGA/GeMM/processingElement.sv
+F/home/mikentain/Projects/FPGA/GeMM/processingElement.sv
+!i122 0
+L0 1 140
+R6
+r1
+!s85 0
+31
+R7
+!s107 /home/mikentain/Projects/FPGA/GeMM/processingElement.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/processingElement.sv|
+!i113 1
+R8
+R9
+R10
+nprocessing@element
+vregAcc
+R1
+R11
+!i10b 1
+!s100 ST:8i7>i=E^FBBoV4X32j0
+R3
+I2Y79zd>2`gUAGC`32KGQ[1
+R4
+S1
+R0
+w1780305972
+8/home/mikentain/Projects/FPGA/GeMM/regAcc.sv
+F/home/mikentain/Projects/FPGA/GeMM/regAcc.sv
+!i122 8
+L0 1 23
+R6
+r1
+!s85 0
+31
+R12
+!s107 /home/mikentain/Projects/FPGA/GeMM/regAcc.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/regAcc.sv|
+!i113 1
+R8
+R9
+R10
+nreg@acc
+vregChain
+R1
+R2
+!i10b 1
+!s100 eFah0NUE7kY5kX0LRcnjJ3
+R3
+I3TlHJ6N_49Nm^A]aVAR;:1
+R4
+S1
+R0
+w1780266199
+8/home/mikentain/Projects/FPGA/GeMM/regChain.sv
+F/home/mikentain/Projects/FPGA/GeMM/regChain.sv
+!i122 1
+L0 1 31
+R6
+r1
+!s85 0
+31
+R7
+!s107 /home/mikentain/Projects/FPGA/GeMM/regChain.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/regChain.sv|
+!i113 1
+R8
+R9
+R10
+nreg@chain
+vregEnable
+R1
+R11
+!i10b 1
+!s100 1V4d8c_A^BTSfWfjKdMM42
+R3
+IO_H17>eSNzO2QmD[GQAnU0
+R4
+S1
+R0
+w1780245737
+8/home/mikentain/Projects/FPGA/GeMM/regEnable.sv
+F/home/mikentain/Projects/FPGA/GeMM/regEnable.sv
+!i122 6
+R13
+R6
+r1
+!s85 0
+31
+R12
+!s107 /home/mikentain/Projects/FPGA/GeMM/regEnable.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/regEnable.sv|
+!i113 1
+R8
+R9
+R10
+nreg@enable
+vregX
+R1
+R2
+!i10b 1
+!s100 DX_mnbhM>UP=PdY10RYd_1
+R3
+InaOA9XLNY6^RA5RUnfz3]2
+R4
+S1
+R0
+w1780265823
+8/home/mikentain/Projects/FPGA/GeMM/regX.sv
+F/home/mikentain/Projects/FPGA/GeMM/regX.sv
+!i122 2
+L0 1 20
+R6
+r1
+!s85 0
+31
+R7
+!s107 /home/mikentain/Projects/FPGA/GeMM/regX.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/regX.sv|
+!i113 1
+R8
+R9
+R10
+nreg@x
+vsumAcc
+R1
+R11
+!i10b 1
+!s100 ?<nb4[;hB7l2e?[T1`Pz=3
+R3
+IGW06S3QC3L4`6S[KgZ59T1
+R4
+S1
+R0
+w1780307211
+8/home/mikentain/Projects/FPGA/GeMM/sumAcc.sv
+F/home/mikentain/Projects/FPGA/GeMM/sumAcc.sv
+!i122 9
+L0 1 27
+R6
+r1
+!s85 0
+31
+R12
+!s107 /home/mikentain/Projects/FPGA/GeMM/sumAcc.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/sumAcc.sv|
+!i113 1
+R8
+R9
+R10
+nsum@acc
+vtb_pe
+R1
+R11
+!i10b 1
+!s100 @R<UEa?XSDnZ?dzzNcL^B0
+R3
+II3ZfBeoi]A7Hg20cGTc602
+R4
+S1
+R0
+w1780312126
+8/home/mikentain/Projects/FPGA/GeMM/tb_pe.sv
+F/home/mikentain/Projects/FPGA/GeMM/tb_pe.sv
+!i122 11
+L0 3 126
+R6
+r1
+!s85 0
+31
+R12
+!s107 /home/mikentain/Projects/FPGA/GeMM/tb_pe.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/mikentain/Projects/FPGA/GeMM|/home/mikentain/Projects/FPGA/GeMM/tb_pe.sv|
+!i113 1
+R8
+R9
+R10

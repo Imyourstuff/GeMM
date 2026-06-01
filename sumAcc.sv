@@ -15,13 +15,13 @@ logic [ACC_WIDTH-1:0] in_y;
 //Размерность + Выходы
 generate
     if (MODE == 1) begin
-        //assign in_y = {{(ACC_WIDTH - 2*WIDTH){in_accum[2*WIDTH-1]}}, in_accum};
-        assign out = $signed(in_x) + $signed(in_y);
+        assign in_y = {{(ACC_WIDTH - 2*WIDTH){in_x[2*WIDTH-1]}}, in_x};
+        assign out = $signed(in_accum) + $signed(in_y);
         end 
     else begin
-          //assign in_y = {{(ACC_WIDTH - 2*WIDTH){1'b0}}, in_accum};
-          assign out = in_x + in_y;
-          end
+        assign in_y = {{(ACC_WIDTH - 2*WIDTH){1'b0}}, in_x};
+        assign out = in_accum + in_y;
+        end
 endgenerate
 
 endmodule
