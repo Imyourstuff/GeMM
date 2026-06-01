@@ -9,7 +9,7 @@ module tb_gemmDriver;
     logic reset;
 
     logic [ACC_WIDTH-1:0] c_out;
-    logic [9:0] tick;
+    logic [N*N-1:0] tick;
 
     int local_tick = 0;
 
@@ -40,9 +40,6 @@ module tb_gemmDriver;
     end
 
     initial begin
-        $display("========================================");
-        $display("Тест драйвера GEMM (N=%0d)", N);
-        $display("========================================");
         
         // Матрица A (тестовые значения)
         A_test[0][0] = 1; A_test[0][1] = 2; A_test[0][2] = 0; A_test[0][3] = 0;
@@ -77,7 +74,7 @@ module tb_gemmDriver;
         
         $display("Запуск вычислений...");
         
-        // Ждём завершения (T_LAST = 22 для N=4)
+        // Ждём завершения (T_LAST = 24 для N=4)
         wait (tick >= 24);
         #50;
         
@@ -92,7 +89,7 @@ module tb_gemmDriver;
     integer col;
     always @(posedge clk) begin
         if (!reset) begin
-            // valid: такты 7..22 для N=4
+
             if (tick >= 9 && tick <= 24) begin
                 $display("[VALID] tick=%0d: c_out=%0d", tick, c_out);
                 offset = tick - 9;
@@ -100,7 +97,7 @@ module tb_gemmDriver;
                 col = offset % N;
                 C_result[row][col] = c_out;
             end
-            // done: такт >= 22
+
             if (tick >= 24) begin
                 $display("[DONE] tick=%0d", tick, c_out);
                 for (int i = 0; i < N; i++)
