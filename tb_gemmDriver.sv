@@ -1,7 +1,6 @@
 `timescale 1ns/1ps
 
 module tb_gemmDriver;
-
     localparam WIDTH = 8;
     localparam N = 4;
     localparam ACC_WIDTH = 2*WIDTH + $clog2(N);
@@ -9,53 +8,27 @@ module tb_gemmDriver;
     logic clk;
     logic reset;
 
-    logic [WIDTH-1:0] a_in;
-    logic [WIDTH-1:0] b_in_1;
-    logic [WIDTH-1:0] b_in_3;
-
-    logic [ACC_WIDTH-1:0] c_in;
-    logic alpha;
-    logic beta;
-
     logic [ACC_WIDTH-1:0] c_out;
-    logic valid;
-    logic done;
+    logic [9:0] tick;
 
-    int tick = 0;
+    int local_tick = 0;
 
-    // ------------------------------------------------------------------
-    // ХАРДКОД МАТРИЦ (как в вашем образце)
-    // ------------------------------------------------------------------
-    logic [WIDTH-1:0] b1 [0:3];  // Строка 1 B
-    logic [WIDTH-1:0] b2 [0:3];  // Строка 2 B
-    logic [WIDTH-1:0] b3 [0:3];  // Строка 3 B
-    logic [WIDTH-1:0] b4 [0:3];  // Строка 4 B
+    logic [WIDTH-1:0] A_test [0:N-1][0:N-1];
+    logic [WIDTH-1:0] B_test [0:N-1][0:N-1];
 
-    logic [WIDTH-1:0] a1 [0:3];  // Строка 1 A
-    logic [WIDTH-1:0] a2 [0:3];  // Строка 2 A
-    logic [WIDTH-1:0] a3 [0:3];  // Строка 3 A
-    logic [WIDTH-1:0] a4 [0:3];  // Строка 4 A
-
-    // ------------------------------------------------------------------
-    // Инстанцирование драйвера
-    // ------------------------------------------------------------------
-    gemmDriver #(
+    gemm_driver #(
         .WIDTH(WIDTH),
         .N(N),
         .ACC_WIDTH(ACC_WIDTH)
     ) driver (
         .clk    (clk),
         .reset  (reset),
-        .a_in   (a_in),
-        .b_in_1 (b_in_1),
-        .b_in_3 (b_in_3),
+        .A      (A_test),
+        .B      (B_test),
         .c_out  (c_out),
         .tick   (tick)
     );
 
-    // ------------------------------------------------------------------
-    // Генерация такта
-    // ------------------------------------------------------------------
     initial begin
         clk = 0;
         forever #10 clk = ~clk;
@@ -63,157 +36,82 @@ module tb_gemmDriver;
 
     // Счётчик тактов для отладки
     always @(posedge clk) begin
-        if (!reset) tick <= tick + 1;
+        if (!reset) local_tick <= local_tick + 1;
     end
 
-    // ------------------------------------------------------------------
-    // Инициализация и сброс
-    // ------------------------------------------------------------------
     initial begin
+        $display("========================================");
+        $display("Тест драйвера GEMM (N=%0d)", N);
+        $display("========================================");
+        
+        // Матрица A (тестовые значения)
+        A_test[0][0] = 1; A_test[0][1] = 2; A_test[0][2] = 0; A_test[0][3] = 0;
+        A_test[1][0] = 2; A_test[1][1] = 1; A_test[1][2] = 0; A_test[1][3] = 0;
+        A_test[2][0] = 0; A_test[2][1] = 0; A_test[2][2] = 1; A_test[2][3] = 2;
+        A_test[3][0] = 0; A_test[3][1] = 0; A_test[3][2] = 2; A_test[3][3] = 1;
+
+        // Матрица B (тестовые значения)
+        B_test[0][0] = 1; B_test[0][1] = 2; B_test[0][2] = 3; B_test[0][3] = 4;
+        B_test[1][0] = 1; B_test[1][1] = 2; B_test[1][2] = 3; B_test[1][3] = 4;
+        B_test[2][0] = 1; B_test[2][1] = 2; B_test[2][2] = 3; B_test[2][3] = 4;
+        B_test[3][0] = 1; B_test[3][1] = 2; B_test[3][2] = 3; B_test[3][3] = 4;
+
+        // Вывод матриц в консоль для проверки
+        $display("Матрица A:");
+        for (int i = 0; i < N; i++)
+            $display("  A[%0d] = %0d %0d %0d %0d", i, 
+                     A_test[i][0], A_test[i][1], A_test[i][2], A_test[i][3]);
+        
+        $display("Матрица B:");
+        for (int i = 0; i < N; i++)
+            $display("  B[%0d] = %0d %0d %0d %0d", i,
+                     B_test[i][0], B_test[i][1], B_test[i][2], B_test[i][3]);
+
+        // Сброс
         #20;
-        $display("Reset all...");
         reset = 1;
-        a_in = 0; b_in_1 = 0; b_in_3 = 0;
-        c_in = 0; alpha = 0; beta = 0;
         #20;
         reset = 0;
-        #20;
-        $display("Reset done. Starting preload phase.");
-    end
-
-    // ------------------------------------------------------------------
-    // ОДИН ОБЩИЙ ПОТОК для всех входов (синхронизация!)
-    // Сохраняем стиль #10, но с правильной последовательностью
-    // ------------------------------------------------------------------
-    initial begin
-        // ================================================================
-        // ФАЗА 1: ПРЕДЗАГРУЗКА (такты 0-7)
-        // Порядок: ОБРАТНЫЙ для циклического буфера (b24→b21, b44→b41...)
-        // ================================================================
-        #60;  // Стартовая точка (как в вашем образце)
-        $display("=== PRELOAD PHASE (ticks 0-7) ===");
-        
-        // Такт 0: b24, b44
-        b_in_1 <= b2[3]; b_in_3 <= b4[3];
-        $display("tick=0: b1=b24=%0d, b3=b44=%0d", b_in_1, b_in_3);
+        local_tick = 0;
         #10;
         
-        // Такт 1: b23, b43
-        b_in_1 <= b2[2]; b_in_3 <= b4[2];
-        $display("tick=1: b1=b23=%0d, b3=b43=%0d", b_in_1, b_in_3);
-        #10;
+        $display("Запуск вычислений...");
         
-        // Такт 2: b22, b42
-        b_in_1 <= b2[1]; b_in_3 <= b4[1];
-        $display("tick=2: b1=b22=%0d, b3=b42=%0d", b_in_1, b_in_3);
-        #10;
+        // Ждём завершения (T_LAST = 22 для N=4)
+        wait (tick >= 24);
+        #50;
         
-        // Такт 3: b21, b41
-        b_in_1 <= b2[0]; b_in_3 <= b4[0];
-        $display("tick=3: b1=b21=%0d, b3=b41=%0d", b_in_1, b_in_3);
-        #10;
-        
-        // Такт 4: b14, b34
-        b_in_1 <= b1[3]; b_in_3 <= b3[3];
-        $display("tick=4: b1=b14=%0d, b3=b34=%0d", b_in_1, b_in_3);
-        #10;
-        
-        // Такт 5: b13, b33
-        b_in_1 <= b1[2]; b_in_3 <= b3[2];
-        $display("tick=5: b1=b13=%0d, b3=b33=%0d", b_in_1, b_in_3);
-        #10;
-        
-        // Такт 6: b12, b32
-        b_in_1 <= b1[1]; b_in_3 <= b3[1];
-        $display("tick=6: b1=b12=%0d, b3=b32=%0d", b_in_1, b_in_3);
-        #10;
-        
-        // Такт 7: b11, b31 (буферы готовы)
-        b_in_1 <= b1[0]; b_in_3 <= b3[0];
-        $display("tick=7: b1=b11=%0d, b3=b31=%0d [BUFFERS READY]", b_in_1, b_in_3);
-        #10;
-
-        // ================================================================
-        // ФАЗА 2: ВЫЧИСЛЕНИЯ (такты 8-23)
-        // Поток A + управляющие сигналы согласно вашей матрице τ
-        // ================================================================
-        $display("=== COMPUTE PHASE (ticks 8-23) ===");
-        
-        // Строка 1 τ: (1,1), (1,0), (1,0), (1,0)
-        // Такт 8: a11, τ11=(1,1)
-        a_in <= a1[0]; alpha <= 1; beta <= 1;
-        $display("tick=8: a=a11=%0d, τ=(1,1)", a_in);
-        #10;
-        
-        // Такт 9: a12, τ12=(1,0)
-        a_in <= a1[1]; alpha <= 1; beta <= 0;
-        $display("tick=9: a=a12=%0d, τ=(1,0)", a_in);
-        #10;
-        
-        // Такт 10: a13, τ13=(1,0)
-        a_in <= a1[2]; alpha <= 1; beta <= 0;
-        $display("tick=10: a=a13=%0d, τ=(1,0)", a_in);
-        #10;
-        
-        // Такт 11: a14, τ14=(1,0)
-        a_in <= a1[3]; alpha <= 1; beta <= 0;
-        $display("tick=11: a=a14=%0d, τ=(1,0)", a_in);
-        #10;
-        
-        // Строка 2 τ: (0,1), (0,0), (0,0), (0,0)
-        // Такт 12: a21, τ21=(0,1)
-        a_in <= a2[0]; alpha <= 0; beta <= 1;
-        $display("tick=12: a=a21=%0d, τ=(0,1)", a_in);
-        #10;
-        
-        // Такт 13-15: a22..a24, τ=(0,0)
-        a_in <= a2[1]; alpha <= 0; beta <= 0; #10;
-        a_in <= a2[2]; alpha <= 0; beta <= 0; #10;
-        a_in <= a2[3]; alpha <= 0; beta <= 0; #10;
-        
-        // Строка 3 τ: (0,1), (0,0), (0,0), (0,0)
-        a_in <= a3[0]; alpha <= 0; beta <= 1; #10;
-        a_in <= a3[1]; alpha <= 0; beta <= 0; #10;
-        a_in <= a3[2]; alpha <= 0; beta <= 0; #10;
-        a_in <= a3[3]; alpha <= 0; beta <= 0; #10;
-        
-        // Строка 4 τ: (0,1), (0,0), (0,0), (0,0)
-        a_in <= a4[0]; alpha <= 0; beta <= 1; #10;
-        a_in <= a4[1]; alpha <= 0; beta <= 0; #10;
-        a_in <= a4[2]; alpha <= 0; beta <= 0; #10;
-        a_in <= a4[3]; alpha <= 0; beta <= 0; #10;
-
-        // ================================================================
-        // ФАЗА 3: ЗАВЕРШЕНИЕ (ожидание результатов)
-        // ================================================================
-        $display("=== FINISH PHASE (waiting for results) ===");
-        a_in <= 0; b_in_1 <= 0; b_in_3 <= 0;
-        alpha <= 0; beta <= 0;
-        
-        // Ждём пока valid и done не отработают
-        #200;
-        
-        $display("Test finished at tick=%0d", tick);
+        $display("Тест завершён на такте %0d", local_tick);
         $finish;
     end
 
-    // ------------------------------------------------------------------
-    // Мониторинг результатов
-    // ------------------------------------------------------------------
+    logic signed [ACC_WIDTH-1:0] C_result [0:N-1][0:N-1];
+
+    integer offset;
+    integer row;
+    integer col;
     always @(posedge clk) begin
         if (!reset) begin
-            if (valid) begin
+            // valid: такты 7..22 для N=4
+            if (tick >= 9 && tick <= 24) begin
                 $display("[VALID] tick=%0d: c_out=%0d", tick, c_out);
+                offset = tick - 9;
+                row = offset / N;
+                col = offset % N;
+                C_result[row][col] = c_out;
             end
-            if (done) begin
-                $display("[DONE] tick=%0d", tick);
+            // done: такт >= 22
+            if (tick >= 24) begin
+                $display("[DONE] tick=%0d", tick, c_out);
+                for (int i = 0; i < N; i++)
+                    $display("  A[%0d] = %0d %0d %0d %0d", i, 
+                        C_result[i][0], C_result[i][1], C_result[i][2], C_result[i][3]);
             end
         end
+        
     end
 
-    // ------------------------------------------------------------------
     // Дамп волн для GTKWave
-    // ------------------------------------------------------------------
     initial begin
         $dumpfile("tb_gemmDriver.vcd");
         $dumpvars(0, tb_gemmDriver);

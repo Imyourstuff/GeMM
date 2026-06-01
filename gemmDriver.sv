@@ -30,14 +30,15 @@ module gemm_driver #(
     gemmArray #(
         .WIDTH(WIDTH),
         .N(N),
-        .ACC_WIDTH(ACC_WIDTH)
+        .ACC_WIDTH(ACC_WIDTH),
+        .MODE(0)
     ) array (
         .clk(clk),
         .reset(reset),
         .a_in(a_in),
         .b_in_1(b_in_1),
         .b_in_3(b_in_3),
-        .c_in(0), //Зануляем на вход в массив
+        .c_in('0), //Зануляем на вход в массив
         .alpha(alpha),
         .beta(beta),
         .c_out(c_out)
@@ -93,7 +94,7 @@ module gemm_driver #(
             b_in_3 <= B[N-2][0];
         end
         else if (cnt > N - 1 && cnt < N*N/2+2) begin
-            b_in_3 <= B[(N/2)+(cnt+1)/N-1][cnt%N];
+            b_in_3 <= B[(N/2)+(cnt+1)/N-1][ cnt %N];
         end
         else b_in_3 <= '0;
     end
