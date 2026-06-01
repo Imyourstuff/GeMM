@@ -57,7 +57,7 @@ module gemm_driver #(
     always_ff @(posedge clk or posedge reset) begin
         if (reset)
             b_in_1 <= '0; 
-        else if (cnt < 2*N)
+        else if (cnt < N*N/2)
             b_in_1 <= B[((N + 1) / 2) - (cnt / N)][cnt % N];
         else 
             b_in_1 <= '0;
@@ -90,7 +90,7 @@ module gemm_driver #(
     // Поток для крайнего правого умножителя
     always_ff @(posedge clk or posedge reset) begin 
         if (reset) b_in_3 <= '0;
-        else if (cnt >= N - 1) 
+        else if (cnt >= N - 1 && cnt <= N*N/2 + N - 1) 
             b_in_3 <= B[(N / 2) + (cnt - N + 1)/N][ (cnt - N + 1) %N];
         else b_in_3 <= '0;
     end
