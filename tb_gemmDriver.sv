@@ -4,6 +4,8 @@ module tb_gemmDriver;
     localparam WIDTH = 8;
     localparam N = 4;
     localparam ACC_WIDTH = 2*WIDTH + $clog2(N);
+    localparam T_FIRST = 2*N + 1;
+    localparam T_LAST  = N*N + 2*N;
 
     logic clk;
     logic reset;
@@ -74,8 +76,7 @@ module tb_gemmDriver;
         
         $display("Запуск вычислений...");
         
-        // Ждём завершения (T_LAST = 24 для N=4)
-        wait (tick >= 24);
+        wait (tick >= T_LAST);
         #50;
         
         $display("Тест завершён на такте %0d", local_tick);
@@ -90,7 +91,7 @@ module tb_gemmDriver;
     always @(posedge clk) begin
         if (!reset) begin
 
-            if (tick >= 9 && tick <= 24) begin
+            if (tick >= T_FIRST && tick <= T_LAST) begin
                 $display("[VALID] tick=%0d: c_out=%0d", tick, c_out);
                 offset = tick - 9;
                 row = offset / N;
@@ -98,7 +99,7 @@ module tb_gemmDriver;
                 C_result[row][col] = c_out;
             end
 
-            if (tick >= 24) begin
+            if (tick >= T_LAST) begin
                 $display("[DONE] tick=%0d", tick, c_out);
                 for (int i = 0; i < N; i++)
                     $display("  A[%0d] = %0d %0d %0d %0d", i, 
@@ -108,7 +109,6 @@ module tb_gemmDriver;
         
     end
 
-    // Дамп волн для GTKWave
     initial begin
         $dumpfile("tb_gemmDriver.vcd");
         $dumpvars(0, tb_gemmDriver);

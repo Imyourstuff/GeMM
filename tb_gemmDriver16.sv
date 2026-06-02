@@ -113,15 +113,12 @@ module tb_gemmDriver;
 
     always @(posedge clk) begin
         if (!reset) begin
-
-            // ИСПРАВЛЕНО: собираем ровно N*N элементов, проверяем row < N
             if (tick >= T_FIRST && tick <= T_LAST) begin
 
                 offset = tick - T_FIRST;
                 row = offset / N;
                 col = offset % N;
 
-                // Защита от выхода за границы
                 if (row < N) begin
                     C_result[row][col] = c_out;
                 end
@@ -148,9 +145,6 @@ module tb_gemmDriver;
         end
     end
 
-    //------------------------------------------------------------
-    // VCD
-    //------------------------------------------------------------
     initial begin
         $dumpfile("tb_gemmDriver.vcd");
         $dumpvars(0, tb_gemmDriver);

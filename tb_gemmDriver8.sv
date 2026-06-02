@@ -14,8 +14,6 @@ logic reset;
 logic [ACC_WIDTH-1:0] c_out;
 logic [N*2-1:0] tick;
 
-
-
 int local_tick = 0;
 
 logic [WIDTH-1:0] A_test [0:N-1][0:N-1];
@@ -34,17 +32,11 @@ gemm_driver #(
     .tick   (tick)
 );
 
-//------------------------------------------------------------
-// Clock
-//------------------------------------------------------------
 initial begin
     clk = 0;
     forever #10 clk = ~clk;
 end
 
-//------------------------------------------------------------
-// Счётчик тактов
-//------------------------------------------------------------
 always @(posedge clk) begin
     if (!reset)
         local_tick <= local_tick + 1;
@@ -112,9 +104,7 @@ initial begin
     local_tick = 0;
 
     #10;
-
     wait (tick >= T_LAST);
-
     #50;
 
     $display("Тест завершён на такте %0d", local_tick);
