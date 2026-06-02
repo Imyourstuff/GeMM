@@ -1,6 +1,6 @@
 module gemm_driver #(
-    parameter N = 4,
-    parameter WIDTH = 8,
+    parameter N = 16,
+    parameter WIDTH = 32,
     parameter ACC_WIDTH = 2*WIDTH + $clog2(N)
 )(
     input logic                clk,
@@ -8,12 +8,12 @@ module gemm_driver #(
     input logic [WIDTH-1:0] A [0:N-1][0:N-1],
     input logic [WIDTH-1:0] B [0:N-1][0:N-1],
     output logic [ACC_WIDTH-1:0] c_out,
-    output logic [WIDTH*2-1:0]          tick
+    output logic [N*2-1:0]     tick
 );
 
     logic alpha;
     logic beta;
-    logic [WIDTH-1*2:0] cnt;
+    logic [N*2-1:0] cnt;
     
     // Counter
     always_ff @(posedge clk or posedge reset) begin
