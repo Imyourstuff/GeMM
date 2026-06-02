@@ -9,7 +9,7 @@ module tb_gemmDriver;
     logic reset;
 
     logic [ACC_WIDTH-1:0] c_out;
-    logic [WIDTH*2-1:0] tick;
+    logic [N*2-1:0] tick;
 
     int local_tick = 0;
 
@@ -42,7 +42,7 @@ module tb_gemmDriver;
     initial begin
         
         // Матрица A (тестовые значения)
-        A_test[0][0] = 1; A_test[0][1] = 2; A_test[0][2] = 0; A_test[0][3] = 0;
+        A_test[0][0] = 1; A_test[0][1] = 2; A_test[0][2] = 2; A_test[0][3] = 2;
         A_test[1][0] = 2; A_test[1][1] = 1; A_test[1][2] = 0; A_test[1][3] = 0;
         A_test[2][0] = 0; A_test[2][1] = 0; A_test[2][2] = 1; A_test[2][3] = 2;
         A_test[3][0] = 0; A_test[3][1] = 0; A_test[3][2] = 2; A_test[3][3] = 1;
