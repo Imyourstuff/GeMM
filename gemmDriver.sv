@@ -1,7 +1,8 @@
-module gemm_driver #(
-    parameter N = 16,
-    parameter WIDTH = 32,
-    parameter ACC_WIDTH = 2*WIDTH + $clog2(N)
+module gemmDriver #(
+    parameter N = 4,
+    parameter WIDTH = 8,
+    parameter ACC_WIDTH = 2*WIDTH + $clog2(N),
+    parameter MODE = 0
 )(
     input logic                clk,
     input logic                reset,
@@ -31,7 +32,7 @@ module gemm_driver #(
         .WIDTH(WIDTH),
         .N(N),
         .ACC_WIDTH(ACC_WIDTH),
-        .MODE(0)
+        .MODE(MODE)
     ) array (
         .clk(clk),
         .reset(reset),

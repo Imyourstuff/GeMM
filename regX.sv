@@ -8,7 +8,7 @@ module regX #(
     output reg [WIDTH-1:0] q_out
 );
 
-always @(posedge clk or posedge reset) begin
+always_ff @(posedge clk or posedge reset) begin
     if (reset)
     begin
         q_out <= {WIDTH{1'b0}};

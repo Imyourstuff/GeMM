@@ -6,6 +6,7 @@ module tb_gemmDriver;
     localparam ACC_WIDTH = 2*WIDTH + $clog2(N);
     localparam T_FIRST = 2*N + 1;
     localparam T_LAST  = N*N + 2*N;
+    localparam MODE = 1;
 
     logic clk;
     logic reset;
@@ -18,10 +19,11 @@ module tb_gemmDriver;
     logic [WIDTH-1:0] A_test [0:N-1][0:N-1];
     logic [WIDTH-1:0] B_test [0:N-1][0:N-1];
 
-    gemm_driver #(
+    gemmDriver #(
         .WIDTH(WIDTH),
         .N(N),
-        .ACC_WIDTH(ACC_WIDTH)
+        .ACC_WIDTH(ACC_WIDTH),
+        .MODE(MODE)
     ) driver (
         .clk    (clk),
         .reset  (reset),
@@ -44,7 +46,7 @@ module tb_gemmDriver;
     initial begin
         
         // Матрица A (тестовые значения)
-        A_test[0][0] = 1; A_test[0][1] = 2; A_test[0][2] = 2; A_test[0][3] = 2;
+        A_test[0][0] = 9; A_test[0][1] = 2; A_test[0][2] = 2; A_test[0][3] = 2;
         A_test[1][0] = 2; A_test[1][1] = 1; A_test[1][2] = 0; A_test[1][3] = 0;
         A_test[2][0] = 0; A_test[2][1] = 0; A_test[2][2] = 1; A_test[2][3] = 2;
         A_test[3][0] = 0; A_test[3][1] = 0; A_test[3][2] = 2; A_test[3][3] = 1;
@@ -96,7 +98,7 @@ module tb_gemmDriver;
                 offset = tick - 9;
                 row = offset / N;
                 col = offset % N;
-                C_result[row][col] = c_out;
+                C_result[row][col] = $signed(c_out);
             end
 
             if (tick >= T_LAST) begin

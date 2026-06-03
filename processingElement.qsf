@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE AUTO
-set_global_assignment -name TOP_LEVEL_ENTITY gemmArray
+set_global_assignment -name TOP_LEVEL_ENTITY gemmDriver
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:09:23  июня 01, 2026"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
@@ -51,7 +51,6 @@ set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH tb_pe -section_
 set_global_assignment -name EDA_TEST_BENCH_NAME tb_pe -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tb_pe
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME tb_pe -section_id tb_pe
-set_global_assignment -name EDA_TEST_BENCH_FILE tb_pe.sv -section_id tb_pe
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name EDA_RUN_TOOL_AUTOMATICALLY OFF -section_id eda_simulation
@@ -59,10 +58,14 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_symbol
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_signal_integrity
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_boundary_scan
+set_global_assignment -name EDA_TEST_BENCH_NAME tb_primitives -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tb_primitives
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME tb_primitives -section_id tb_primitives
+set_global_assignment -name EDA_TEST_BENCH_FILE tb_pe.sv -section_id tb_pe
+set_global_assignment -name EDA_TEST_BENCH_FILE tb_primitives.sv -section_id tb_primitives
+set_global_assignment -name SYSTEMVERILOG_FILE gemmDriver.sv
 set_global_assignment -name SYSTEMVERILOG_FILE gemmArray.sv
 set_global_assignment -name SYSTEMVERILOG_FILE processingElement.sv
-set_global_assignment -name SYSTEMVERILOG_FILE tb_mult.sv
-set_global_assignment -name SYSTEMVERILOG_FILE tb_regX.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tb_pe.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tb_primitives.sv
 set_global_assignment -name SYSTEMVERILOG_FILE dffMy.sv

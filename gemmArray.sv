@@ -1,5 +1,5 @@
 module gemmArray #(
-    parameter WIDTH = 32,
+    parameter WIDTH = 8,
     parameter N = 4,
     parameter ACC_WIDTH = 2*WIDTH + $clog2(N),
     parameter MODE = 0
