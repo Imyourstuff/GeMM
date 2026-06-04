@@ -1,5 +1,5 @@
 module processingElement #(
-    parameter   WIDTH = 8,
+    parameter   WIDTH = 16,
                 N = 4,
                 ACC_WIDTH  = 2 * WIDTH + $clog2(N),
 				MODE = 0,
