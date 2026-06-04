@@ -45,17 +45,15 @@ module tb_gemmDriver;
 
     initial begin
         
-        // Матрица A (тестовые значения)
-        A_test[0][0] = 9; A_test[0][1] = 2; A_test[0][2] = 2; A_test[0][3] = 2;
-        A_test[1][0] = 2; A_test[1][1] = 1; A_test[1][2] = 0; A_test[1][3] = 0;
-        A_test[2][0] = 0; A_test[2][1] = 0; A_test[2][2] = 1; A_test[2][3] = 2;
-        A_test[3][0] = 0; A_test[3][1] = 0; A_test[3][2] = 2; A_test[3][3] = 1;
+        A_test[0][0] = 10; A_test[0][1] = 2; A_test[0][2] = 3; A_test[0][3] = 4;
+        A_test[1][0] = 8; A_test[1][1] = 2; A_test[1][2] = 3; A_test[1][3] = 4;
+        A_test[2][0] = 0; A_test[2][1] = 0; A_test[2][2] = 22; A_test[2][3] = 2;
+        A_test[3][0] = 0; A_test[3][1] = 0; A_test[3][2] = 2; A_test[3][3] = 44;
 
-        // Матрица B (тестовые значения)
-        B_test[0][0] = 1; B_test[0][1] = 2; B_test[0][2] = 3; B_test[0][3] = 4;
-        B_test[1][0] = 1; B_test[1][1] = 2; B_test[1][2] = 3; B_test[1][3] = 4;
-        B_test[2][0] = 1; B_test[2][1] = 2; B_test[2][2] = 3; B_test[2][3] = 4;
-        B_test[3][0] = 1; B_test[3][1] = 2; B_test[3][2] = 3; B_test[3][3] = 4;
+        B_test[0][0] = 44; B_test[0][1] = 2; B_test[0][2] = 3; B_test[0][3] = 4;
+        B_test[1][0] = 44; B_test[1][1] = 2; B_test[1][2] = 3; B_test[1][3] = 4;
+        B_test[2][0] = 44; B_test[2][1] = 2; B_test[2][2] = 3; B_test[2][3] = 4;
+        B_test[3][0] = 44; B_test[3][1] = 2; B_test[3][2] = 3; B_test[3][3] = 4;
 
         // Вывод матриц в консоль для проверки
         $display("Матрица A:");
@@ -94,7 +92,6 @@ module tb_gemmDriver;
         if (!reset) begin
 
             if (tick >= T_FIRST && tick <= T_LAST) begin
-                $display("[VALID] tick=%0d: c_out=%0d", tick, c_out);
                 offset = tick - 9;
                 row = offset / N;
                 col = offset % N;

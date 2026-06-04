@@ -19,7 +19,7 @@ int local_tick = 0;
 logic [WIDTH-1:0] A_test [0:N-1][0:N-1];
 logic [WIDTH-1:0] B_test [0:N-1][0:N-1];
 
-gemm_driver #(
+gemmDriver #(
     .WIDTH(WIDTH),
     .N(N),
     .ACC_WIDTH(ACC_WIDTH)
@@ -129,11 +129,6 @@ always @(posedge clk) begin
             col = offset % N;
 
             C_result[row][col] = c_out;
-
-            $display(
-                "Значение. Такт=%0d С[%0d][%0d] = %0d",
-                tick, row, col, c_out
-            );
         end
 
         if (tick >= 81) begin
@@ -152,7 +147,7 @@ always @(posedge clk) begin
 end
 
 initial begin
-    $dumpfile("tb_gemmDriver.vcd");
+    $dumpfile("tb_gemmDriver8.vcd");
     $dumpvars(0, tb_gemmDriver);
 end
 

@@ -19,7 +19,7 @@ module tb_gemmDriver;
     logic [WIDTH-1:0] A_test [0:N-1][0:N-1];
     logic [WIDTH-1:0] B_test [0:N-1][0:N-1];
 
-    gemm_driver #(
+    gemmDriver #(
         .WIDTH(WIDTH),
         .N(N),
         .ACC_WIDTH(ACC_WIDTH)
@@ -52,6 +52,8 @@ module tb_gemmDriver;
             A_test[2*k][2*k]   = 1; A_test[2*k][2*k+1]   = 2;
             A_test[2*k+1][2*k] = 2; A_test[2*k+1][2*k+1] = 1;
         end
+
+        A_test[10][6] = 10;
 
         for (int i=0; i<N; i=i+1) begin
             B_test[i][0]=1;  B_test[i][1]=2;  B_test[i][2]=3;  B_test[i][3]=4;
@@ -107,10 +109,6 @@ module tb_gemmDriver;
     integer row;
     integer col;
 
-    always @(posedge clk)
-    if (!reset)
-        $display("tick=%0d c_out=%0d", tick, c_out);
-
     always @(posedge clk) begin
         if (!reset) begin
             if (tick >= T_FIRST && tick <= T_LAST) begin
@@ -146,7 +144,7 @@ module tb_gemmDriver;
     end
 
     initial begin
-        $dumpfile("tb_gemmDriver.vcd");
+        $dumpfile("tb_gemmDriver16.vcd");
         $dumpvars(0, tb_gemmDriver);
     end
 
